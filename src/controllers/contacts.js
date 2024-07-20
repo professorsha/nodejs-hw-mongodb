@@ -3,6 +3,7 @@ import {
   getContactById,
   createContact,
   deleteContact,
+  updateContact,
 } from '../services/contacts.js';
 import createHttpError from 'http-errors';
 
@@ -19,7 +20,15 @@ export const getContactsController = async (req, res, next) => {
   }
 };
 export const createContactController = async (req, res) => {
-  const contact = await createContact(req.body);
+  const contactNew = {
+    name: req.body.name,
+    phoneNumber: req.body.phoneNumber,
+    email: req.body.email,
+    isFavourite: req.body.isFavourite,
+    contactType: req.body.contactType,
+  };
+
+  const contact = await createContact(contactNew);
 
   res.status(201).json({
     status: 201,
@@ -27,6 +36,20 @@ export const createContactController = async (req, res) => {
     data: contact,
   });
 };
+// async function createStudent(req, res, next) {
+//   const student = {
+//     name: req.body.name,
+//     gender: req.body.gender,
+//     email: req.body.email,
+//     year: req.body.year,
+//   };
+
+//   const createdStudent = await StudentService.createStudent(student);
+
+//   res
+//     .status(201)
+//     .send({ status: 201, message: 'Student created', data: createdStudent });
+// }
 export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
 
@@ -53,4 +76,27 @@ export const deleteContactController = async (req, res, next) => {
   }
 
   res.status(204).send();
+};
+export const updateContactController = async (req, res, next) => {
+  const { contactId } = req.params;
+  const contact = {
+    name: req.body.name,
+    phoneNumber: req.body.phoneNumber,
+    email: req.body.email,
+    isFavourite: req.body.isFavourite,
+    contactType: req.body.contactType,
+  };
+  // console.log({contactId,contact});
+  const result = await updateContact(contactId, contact);
+  // console.log(result);
+  if (!result) {
+    next(createHttpError(404, 'Contact not found'));
+    return;
+  }
+
+  res.json({
+    status: 200,
+    message: `Successfully patched a contact!`,
+    data: result,
+  });
 };
