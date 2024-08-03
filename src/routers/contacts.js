@@ -23,6 +23,12 @@ router.get(
   ctrlWrapper(getContactByIdController),
 );
 router.post(
+  '/register',
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactController),
+);
+
+router.post(
   '/contacts',
   jsonParser,
   validateBody(createContactSchema),
