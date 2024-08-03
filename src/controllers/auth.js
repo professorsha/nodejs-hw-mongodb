@@ -1,8 +1,8 @@
 import { ONE_DAY } from '../constants/index.js';
 import {
   loginUser,
-  // logoutUser,
-  // refreshUsersSession,
+   logoutUser,
+   refreshUsersSession,
   registerUser,
 } from '../services/auth.js';
 

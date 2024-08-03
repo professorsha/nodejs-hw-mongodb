@@ -3,8 +3,8 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { loginUserSchema,registerUserSchema } from '../validation/auth.js';
 import {
   loginUserController,
-  // logoutUserController,
-  // refreshUserSessionController,
+  logoutUserController,
+  refreshUserSessionController,
   registerUserController,
 } from '../controllers/auth.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -27,7 +27,7 @@ router.post(
   ctrlWrapper(loginUserController),
 );
 
-// router.post('/logout', jsonParser, ctrlWrapper(logoutUserController));
+ router.post('/logout', jsonParser, ctrlWrapper(logoutUserController));
 
-// router.post('/refresh', jsonParser, ctrlWrapper(refreshUserSessionController));
+ router.post('/refresh', jsonParser, ctrlWrapper(refreshUserSessionController));
 export default router;

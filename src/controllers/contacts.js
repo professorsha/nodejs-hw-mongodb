@@ -28,18 +28,7 @@ export const getContactsController = async (req, res) => {
     data: contacts,
   });
 };
-// export const getContactsController = async (req, res, next) => {
-//   try {
-//     const contacts = await getAllContacts();
-//     res.json({
-//       status: 200,
-//       message: 'Successfully found students!',
-//       data: contacts,
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+
 export const createContactController = async (req, res) => {
   const contactNew = {
     name: req.body.name,
@@ -47,6 +36,7 @@ export const createContactController = async (req, res) => {
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+
   };
 
   const contact = await createContact(contactNew);
