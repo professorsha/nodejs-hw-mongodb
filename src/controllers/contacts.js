@@ -48,24 +48,11 @@ export const createContactController = async (req, res) => {
     data: contact,
   });
 };
-// async function createStudent(req, res, next) {
-//   const student = {
-//     name: req.body.name,
-//     gender: req.body.gender,
-//     email: req.body.email,
-//     year: req.body.year,
-//   };
 
-//   const createdStudent = await StudentService.createStudent(student);
-
-//   res
-//     .status(201)
-//     .send({ status: 201, message: 'Student created', data: createdStudent });
-// }
 export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
 
-  const contact = await getContactById(contactId);
+  const contact = await getContactById(contactId, req.user._id);
 
   // Відповідь, якщо контакт не знайдено
   if (!contact) {
@@ -99,7 +86,7 @@ export const updateContactController = async (req, res, next) => {
     contactType: req.body.contactType,
   };
   // console.log({contactId,contact});
-  const result = await updateContact(contactId, contact);
+  const result = await updateContact(contactId, contact, req.user._id);
   // console.log(result);
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
