@@ -25,6 +25,12 @@ router.get(
   ctrlWrapper(getContactByIdController),
 );
 router.post(
+  '',
+  jsonParser,
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactController),
+);
+router.post(
   '/register',
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
@@ -46,7 +52,6 @@ router.patch(
   jsonParser,
   isValidId,
   validateBody(updateContactSchema),
-  
   ctrlWrapper(updateContactController),
 );
 export default router;

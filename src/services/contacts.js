@@ -40,12 +40,15 @@ export const getAllContacts = async ({
 
 export const getContactById = async (contactId, userId) => {
   const contact = await ContactsCollection.findOne({ _id: contactId, userId });
-  //   console.log({contact});
   return contact;
 };
 
 export const createContact = async (payload) => {
-  const contact = ContactsCollection.create(payload);
+  const contact = ContactsCollection.create({
+    ...payload,
+    userId: payload.userId,
+  });
+  await contact.save();
   return contact;
 };
 export const deleteContact = async (contactId, userId) => {
@@ -56,13 +59,16 @@ export const deleteContact = async (contactId, userId) => {
   return contact;
 };
 export const updateContact = async (contactId, contact) => {
-  const rawResult = await ContactsCollection.findByIdAndUpdate(
+  const rawResult = await ContactsCollection.findOneAndUpdate(
     contactId,
     contact,
     { new: true },
   );
-  console.log(rawResult);
-  //  if (!rawResult || !rawResult.value) return null;
+  
+  if (!rawResult || !rawResult.value) return null;
 
-  return rawResult;
+  return {
+    contact: rawResult.value,
+    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+  };
 };
