@@ -25,7 +25,7 @@ router.get(
   ctrlWrapper(getContactByIdController),
 );
 router.post(
-  '',
+  '/',
   jsonParser,
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
@@ -36,12 +36,12 @@ router.post(
   ctrlWrapper(createContactController),
 );
 
-router.post(
-  '/',
-  jsonParser,
-  validateBody(createContactSchema),
-  ctrlWrapper(createContactController),
-);
+// router.post(
+//   '/',
+//   jsonParser,
+//   validateBody(createContactSchema),
+//   ctrlWrapper(createContactController),
+// );
 router.delete(
   '/:contactId',
   isValidId,

@@ -48,7 +48,7 @@ export const createContact = async (payload) => {
     ...payload,
     userId: payload.userId,
   });
-  await contact.save();
+  // await contact.save();
   return contact;
 };
 export const deleteContact = async (contactId, userId) => {
@@ -58,7 +58,7 @@ export const deleteContact = async (contactId, userId) => {
   });
   return contact;
 };
-export const updateContact = async (contactId, contact) => {
+export const updateContact = async (contactId, contact,) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
     contactId,
     contact,
