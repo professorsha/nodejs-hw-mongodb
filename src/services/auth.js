@@ -18,9 +18,11 @@ export const registerUser = async (payload) => {
 };
 export const loginUser = async (payload) => {
     const user = await UsersCollection.findOne({ email: payload.email });
+
     if (!user) {
       throw createHttpError(404, 'User not found');
     }
+
     const isEqual = await bcrypt.compare(payload.password, user.password);
   
     if (!isEqual) {
@@ -48,6 +50,7 @@ export const loginUser = async (payload) => {
     const refreshToken = randomBytes(30).toString('base64');
   
     return {
+
       accessToken,
       refreshToken,
       accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
