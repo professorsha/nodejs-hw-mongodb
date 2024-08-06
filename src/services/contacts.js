@@ -58,13 +58,13 @@ export const deleteContact = async (contactId, userId) => {
   });
   return contact;
 };
-export const updateContact = async (contactId, contact,) => {
+export const updateContact = async (contactId, contact, userId) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
-    contactId,
+    { _id: contactId, userId },
     contact,
     { new: true },
   );
-  
+
   if (!rawResult || !rawResult.value) return null;
 
   return {
