@@ -36,12 +36,6 @@ router.post(
   ctrlWrapper(createContactController),
 );
 
-// router.post(
-//   '/',
-//   jsonParser,
-//   validateBody(createContactSchema),
-//   ctrlWrapper(createContactController),
-// );
 router.delete(
   '/:contactId',
   isValidId,
