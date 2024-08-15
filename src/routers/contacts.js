@@ -4,7 +4,8 @@ import {
   getContactByIdController,
   createContactController,
   deleteContactController,
-  updateContactController,
+  // updateContactController,
+  patchContactController,
 } from '../controllers/contacts.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
@@ -34,26 +35,27 @@ router.post(
 // );
 
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
-router.patch(
-  '/:contactId',
-  jsonParser,
-  isValidId,
-  validateBody(updateContactSchema),
-  ctrlWrapper(updateContactController),
-);
+// router.patch(
+//   '/:contactId',
+//   jsonParser,
+//   isValidId,
+//   validateBody(updateContactSchema),
+//   ctrlWrapper(updateContactController),
+// );
 // ==========================
 router.patch(
   '/:contactId/photo',
   isValidId,
   upload.single('photo'), // додаємо цю middleware
   validateBody(updateContactSchema),
-  ctrlWrapper(updateContactController),
+  ctrlWrapper(patchContactController),
 );
 // // ============================
 router.patch(
   '/:contactId',
   isValidId,
-  validateBody(createContactSchema),
-  ctrlWrapper(createContactController),
+  upload.single('photo'),
+  validateBody(updateContactSchema),
+  ctrlWrapper(patchContactController),
 );
 export default router;
