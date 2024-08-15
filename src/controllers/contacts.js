@@ -113,33 +113,19 @@ export const deleteContactController = async (req, res, next) => {
 //     data: result,
 //   });
 // };
-// export const patchContactController = async (req, res, next) => {
-//   const { contactId } = req.params;
-//   const photo = req.file;
-  
-// 	 /* в photo лежить обʼєкт файлу
-// 		{
-// 		  fieldname: 'photo',
-// 		  originalname: 'download.jpeg',
-// 		  encoding: '7bit',
-// 		  mimetype: 'image/jpeg',
-// 		  destination: '/Users/borysmeshkov/Projects/goit-study/students-app/temp',
-// 		  filename: '1710709919677_download.jpeg',
-// 		  path: '/Users/borysmeshkov/Projects/goit-study/students-app/temp/1710709919677_download.jpeg',
-// 		  size: 7
-// 	  }*/
-
-
-  // const result = await updateStudent(studentId, {
-  //   ...req.body,
-  //   photo: photoUrl,
-  // });
-
-
 //   };
 export const patchContactController = async (req, res, next) => {
   const { contactId } = req.params;
   const photo = req.file;
+  
+  const contact = {
+    name: req.body.name,
+    phoneNumber: req.body.phoneNumber,
+    email: req.body.email,
+    isFavourite: req.body.isFavourite,
+    contactType: req.body.contactType,
+   
+  };
 
   let photoUrl;
 
@@ -150,11 +136,8 @@ export const patchContactController = async (req, res, next) => {
       photoUrl = await saveFileToUploadDir(photo);
     }
   }
-
-  const result = await updateContact(contactId, {
-    ...req.body,
-    photo: photoUrl,
-  });
+  contact.photo=photoUrl;
+  const result = await updateContact(contactId, contact, req.user._id);
 
   if (!result) {
     next(createHttpError(404, `Contact not found ${contactId}`));
@@ -164,6 +147,6 @@ export const patchContactController = async (req, res, next) => {
   res.json({
     status: 200,
     message: `Successfully patched a student!`,
-    data: result.student,
+    data: result.contact,
   });
 };
