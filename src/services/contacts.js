@@ -65,10 +65,10 @@ export const updateContact = async (contactId, contact, userId) => {
     { new: true },
   );
 
-  if (!rawResult || !rawResult.value) return null;
-
+   if (!rawResult) return null;
+  
   return {
-    contact: rawResult.value,
+    contact: rawResult,
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
 };
