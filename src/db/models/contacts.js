@@ -25,7 +25,8 @@ const contactsSchema = new Schema(
       enum: ['work', 'home', 'personal'],
       default: 'personal',
     },
-    userId: { type: Schema.Types.ObjectId, ref: 'users', required: true }, // нове поле
+    userId: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+    photo: { type: String, default: null },
   },
   {
     timestamps: true,

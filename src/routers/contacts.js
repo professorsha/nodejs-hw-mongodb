@@ -12,6 +12,7 @@ import { createContactSchema } from '../validation/contacts.js';
 import { updateContactSchema } from '../validation/contacts.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { upload } from '../middlewares/multer.js';
 
 const router = express.Router();
 const jsonParser = express.json();
@@ -19,33 +20,40 @@ router.use(authenticate);
 
 router.get('/', ctrlWrapper(getContactsController));
 
-router.get(
-  '/:contactId',
-  isValidId,
-  ctrlWrapper(getContactByIdController),
-);
+router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
 router.post(
   '/',
   jsonParser,
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
-router.post(
-  '/register',
-  validateBody(createContactSchema),
-  ctrlWrapper(createContactController),
-);
+// router.post(
+//   '/register',
+//   validateBody(createContactSchema),
+//   ctrlWrapper(createContactController),
+// );
 
-router.delete(
-  '/:contactId',
-  isValidId,
-  ctrlWrapper(deleteContactController),
-);
+router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
 router.patch(
   '/:contactId',
   jsonParser,
   isValidId,
   validateBody(updateContactSchema),
   ctrlWrapper(updateContactController),
+);
+// ==========================
+router.patch(
+  '/:contactId/photo',
+  isValidId,
+  upload.single('photo'), // додаємо цю middleware
+  validateBody(updateContactSchema),
+  ctrlWrapper(updateContactController),
+);
+// // ============================
+router.patch(
+  '/:contactId',
+  isValidId,
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactController),
 );
 export default router;

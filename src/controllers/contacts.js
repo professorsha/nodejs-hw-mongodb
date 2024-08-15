@@ -9,6 +9,8 @@ import createHttpError from 'http-errors';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseFilterParams } from '../utils/parseFilterParams.js';
+import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -78,16 +80,27 @@ export const deleteContactController = async (req, res, next) => {
 };
 export const updateContactController = async (req, res, next) => {
   const { contactId } = req.params;
+
+   const photo = req.file;
+
   const contact = {
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
     email: req.body.email,
     isFavourite: req.body.isFavourite,
     contactType: req.body.contactType,
+    // photo:req.file.descrination,
   };
-  // console.log({contactId,contact});
+  let photoUrl;
+
+  if (photo) {
+    photoUrl = await saveFileToUploadDir(photo);
+  }
+  
+  contact.photo=photoUrl;
+  console.log({contactId});
   const result = await updateContact(contactId, contact, req.user._id);
-  // console.log(result);
+  console.log({result});
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
     return;
@@ -99,3 +112,27 @@ export const updateContactController = async (req, res, next) => {
     data: result,
   });
 };
+// export const patchContactController = async (req, res, next) => {
+//   const { contactId } = req.params;
+//   const photo = req.file;
+  
+// 	 /* в photo лежить обʼєкт файлу
+// 		{
+// 		  fieldname: 'photo',
+// 		  originalname: 'download.jpeg',
+// 		  encoding: '7bit',
+// 		  mimetype: 'image/jpeg',
+// 		  destination: '/Users/borysmeshkov/Projects/goit-study/students-app/temp',
+// 		  filename: '1710709919677_download.jpeg',
+// 		  path: '/Users/borysmeshkov/Projects/goit-study/students-app/temp/1710709919677_download.jpeg',
+// 		  size: 7
+// 	  }*/
+
+
+  // const result = await updateStudent(studentId, {
+  //   ...req.body,
+  //   photo: photoUrl,
+  // });
+
+
+//   };
