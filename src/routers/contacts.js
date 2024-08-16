@@ -25,32 +25,13 @@ router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
 router.post(
   '/',
   jsonParser,
+  upload.single('photo'),
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
-// router.post(
-//   '/register',
-//   validateBody(createContactSchema),
-//   ctrlWrapper(createContactController),
-// );
 
 router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
-// router.patch(
-//   '/:contactId',
-//   jsonParser,
-//   isValidId,
-//   validateBody(updateContactSchema),
-//   ctrlWrapper(updateContactController),
-// );
-// ==========================
-router.patch(
-  '/:contactId/photo',
-  isValidId,
-  upload.single('photo'), // додаємо цю middleware
-  validateBody(updateContactSchema),
-  ctrlWrapper(patchContactController),
-);
-// // ============================
+
 router.patch(
   '/:contactId',
   isValidId,
