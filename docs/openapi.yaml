@@ -14,8 +14,15 @@ tags:
     description: Auth operations.
 servers:
   - url: http://localhost:3000
-  - url: https://contacts-app-cg2f.onrender.com/
+  - url: https://contacts-app-cg2f.onrender.com
 paths:
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register/post.yaml
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login/post.yaml
+
   /contacts:
     get: 
       $ref: ../swagger/paths/contacts/get.yaml

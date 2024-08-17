@@ -1,0 +1,58 @@
+tags:
+  - Auth/register
+summary: Register user
+operationId: registerUser
+description: 'Create User for login'
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - email
+          - password
+        properties:
+          name:
+            description: "Name user's"
+            type: string
+            example: 'Karl'
+          email:
+            description: 'Email'
+            type: string
+            example: 'karl@gmail.com'
+          password:
+            description: 'password'
+            type: string
+            example: '123456789'
+          userId:
+            description: "Id user's in base data"
+            type: string
+            example: 65e4decdd286b30065d54af9
+responses:
+  '201':
+    description: Create a user
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: 'Successfully registered a user!'
+            data:
+              type: object
+              $ref: ../../../components/schemas/auth.yaml
+  '400':
+    $ref: '../../../components/responses/400.yaml'
+  '409':
+    $ref: '../../../components/responses/409.yaml'
